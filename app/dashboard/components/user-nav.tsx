@@ -48,6 +48,10 @@ const UserNav: React.FC<UserNavProps> = ({ linkToken }) => {
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <PlaidButton linkToken={linkToken} />
+                    {/* <DropdownMenuItem onClick={}>
+                        Add Account
+                        <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem>
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
