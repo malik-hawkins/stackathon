@@ -1,6 +1,4 @@
-// export default function Page() {
-//     return <h1>Welcome, Dashboard Page</h1>
-// }
+"use client"
 
 import { Metadata } from "next"
 import Image from "next/image"
@@ -25,14 +23,42 @@ import { Overview } from "./components/overview"
 import { RecentSales } from "./components/recent-sales"
 import { Search } from "./components/search"
 import TeamSwitcher from "./components/team-switcher"
-import { UserNav } from "./components/user-nav"
-
-export const metadata: Metadata = {
-    title: "Dashboard",
-    description: "Example dashboard app built using the components.",
-}
+import UserNav from "./components/user-nav"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function DashboardPage() {
+
+    const [linkToken, setLinkToken] = useState<string | null>(null);
+    const [isLinkTokenCreated, setIsLinkTokenCreated] = useState(false);
+    const [isCreatingLinkToken, setIsCreatingLinkToken] = useState(false);
+    const bearerToken = 'PLACE_JWT_HERE'
+    useEffect(() => {
+        console.log("Triggered")
+        if (linkToken === null) {
+            createLinkToken()
+        }
+    }, []);
+
+    const createLinkToken = async () => {
+        try {
+            console.log('Creating link token...');
+            const response = await axios.post('http://localhost:8080/api/createLinkToken', {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${bearerToken}`,
+                },
+            });
+            console.log('Link token created:', response.data.linkToken);
+            setLinkToken(response.data.linkToken);
+            setIsLinkTokenCreated(true);
+        } catch (error) {
+            console.error('Error creating link token:', error);
+        } finally {
+            setIsCreatingLinkToken(false);
+        }
+    };
+
     return (
         <>
             <div className="md:hidden">
@@ -54,11 +80,10 @@ export default function DashboardPage() {
             <div className="hidden flex-col md:flex">
                 <div className="border-b">
                     <div className="flex h-16 items-center px-4">
-                        {/* <TeamSwitcher /> */}
+
                         <MainNav className="mx-6" />
                         <div className="ml-auto flex items-center space-x-4">
-                            {/* <Search /> */}
-                            <UserNav />
+                            <UserNav linkToken={linkToken} />
                         </div>
                     </div>
                 </div>

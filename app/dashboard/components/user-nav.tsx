@@ -17,7 +17,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import PlaidButton from "../components/plaid-button"
 
-export function UserNav() {
+interface UserNavProps {
+    linkToken: string | null;
+}
+
+const UserNav: React.FC<UserNavProps> = ({ linkToken }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -43,7 +47,7 @@ export function UserNav() {
                         Profile
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <PlaidButton />
+                    <PlaidButton linkToken={linkToken} />
                     {/* <DropdownMenuItem onClick={}>
                         Add Account
                         <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
@@ -62,3 +66,5 @@ export function UserNav() {
         </DropdownMenu>
     )
 }
+
+export default UserNav;
