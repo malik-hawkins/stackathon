@@ -1,3 +1,5 @@
+"use client"
+
 import { Metadata } from "next"
 import { Card, CardTitle, CardHeader, CardDescription, CardContent } from "@/components/ui/card"
 import "../globals.css";
@@ -11,15 +13,36 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import CardOptions from "./components/card-options";
 import CardActions from "./components/card-actions";
-
-export const metadata: Metadata = {
-    title: "Groups",
-    description: "Group page to see what groups you belong to.",
-}
+import { useEffect, useRef, useState } from "react";
+import { CreateGroupForm } from "./components/create-group-form";
 
 export default function GroupPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const modalRef = useRef<HTMLDivElement | null>(null);
 
-    let groups = []
+    const openModal = () => {
+        console.log("Opening Modal");
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        console.log("Closing Modal");
+        setIsModalOpen(false);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                closeModal();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <>
@@ -32,30 +55,39 @@ export default function GroupPage() {
                 <div className="flex items-center justify-between space-y-2">
                     <h2 className="text-3xl font-bold tracking-tight">Groups</h2>
                     <div className="flex items-center space-x-2">
-                        <Button>Create a group</Button>
+                        <Button onClick={openModal}>Create a group</Button>
                     </div>
                 </div>
             </div>
+
+
+            {isModalOpen && (
+                <>
+
+                    <div
+                        className="fixed inset-0 bg-black opacity-50 z-40"
+                        onClick={closeModal}
+                    ></div>
+
+                    {/* Modal content */}
+                    <div className="fixed z-50 inset-0 flex items-center justify-center">
+                        <div
+                            ref={modalRef}
+                            className="bg-white p-6 rounded shadow-lg relative"
+                        >
+                            <CreateGroupForm closeModal={closeModal} />
+                        </div>
+                    </div>
+                </>
+            )}
+
             <div className="flex flex-row items-center justify-between space-y-4 pb-2">
                 <Card className="w-1/4 ml-8">
                     <CardHeader className="flex justify-start">
-                        <CardTitle className="text-sm font-medium">
-                            Group 1
-                        </CardTitle>
+                        <CardTitle className="text-sm font-medium">Group 1</CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-6">
-                        {/* <div className="flex items-center justify-between space-x-4">
-                            <div className="flex items-center space-x-4">
-                                <Avatar>
-                                    <AvatarImage src="/avatars/01.png" />
-                                    <AvatarFallback>MH</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <p className="text-sm font-medium leading-none">Malik Hawkins</p>
-                                    <p className="text-sm text-muted-foreground">mh@example.com</p>
-                                </div>
-                            </div>
-                        </div> */}
+                        {/* Additional content */}
                         <CardOptions />
                         <div className="flex justify-end">
                             <CardActions />
@@ -64,9 +96,7 @@ export default function GroupPage() {
                 </Card>
                 <Card className="w-1/4">
                     <CardHeader className="flex justify-start">
-                        <CardTitle className="text-sm font-medium">
-                            Group 2
-                        </CardTitle>
+                        <CardTitle className="text-sm font-medium">Group 2</CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-6">
                         <div className="flex items-center justify-between space-x-4">
@@ -85,9 +115,7 @@ export default function GroupPage() {
                 </Card>
                 <Card className="w-1/4 mr-8">
                     <CardHeader className="flex justify-start">
-                        <CardTitle className="text-sm font-medium">
-                            Group 3
-                        </CardTitle>
+                        <CardTitle className="text-sm font-medium">Group 3</CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-6">
                         <div className="flex items-center justify-between space-x-4">
@@ -106,13 +134,5 @@ export default function GroupPage() {
                 </Card>
             </div>
         </>
-    )
+    );
 }
-
-
-{/* <Card className="w-1/4 mr-8">
-                    <CardHeader className="flex-1 flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Group 3
-                        </CardTitle>
-                    </CardHeader> */}
