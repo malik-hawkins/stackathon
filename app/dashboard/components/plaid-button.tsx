@@ -37,7 +37,8 @@ const PlaidButton: React.FC<PlaidButtonProps> = ({ linkToken }) => {
 
     const config = {
         token: linkToken,
-        onSuccess
+        onSuccess,
+        onExit
     };
 
     const { open, ready } = usePlaidLink(config);
