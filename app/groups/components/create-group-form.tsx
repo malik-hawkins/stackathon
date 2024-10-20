@@ -31,13 +31,12 @@ export function CreateGroupForm({ closeModal }: CreateGroupFormProps) {
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="email">Group Name</Label>
-                        <Input id="group_name" type="name" placeholder="m@example.com" required />
+                        <Input id="group_name" type="name" required />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="description">Description</Label>
                         <Textarea
                             id="description"
-                            placeholder="Please include all information relevant to your issue."
                         />
                     </div>
                 </CardContent>
