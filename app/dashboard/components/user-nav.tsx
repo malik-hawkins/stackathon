@@ -1,4 +1,8 @@
 "use client";
+
+import { auth } from "../../../lib/firebase";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import {
     Avatar,
     AvatarFallback,
@@ -22,6 +26,17 @@ interface UserNavProps {
 }
 
 const UserNav: React.FC<UserNavProps> = ({ linkToken }) => {
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            router.push("/signin");
+        } catch (error) {
+            console.error("Error logging out:", error);
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -48,23 +63,19 @@ const UserNav: React.FC<UserNavProps> = ({ linkToken }) => {
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <PlaidButton linkToken={linkToken} />
-                    {/* <DropdownMenuItem onClick={}>
-                        Add Account
-                        <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem>
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                     Log out
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 }
 
 export default UserNav;

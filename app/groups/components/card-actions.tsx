@@ -6,12 +6,16 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
 
-
+// Going to change this to accept user prop maybe
 export default function CardOptions() {
     const router = useRouter();
 
     const handleDeleteButtonClick = () => {
+        // Implement delete group, option should only be available if current user is owner of the group
+    }
 
+    const hanleLeaveButtonClick = () => {
+        // Implement leave group, option should only be available if current user is not owner of the group
     }
 
     const handleViewButtonClick = () => {
@@ -35,6 +39,10 @@ export default function CardOptions() {
                 <DropdownMenuItem>
                     Delete
                     <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    Leave
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu >

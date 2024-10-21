@@ -15,13 +15,12 @@ export function CreateGroupForm({ closeModal }: CreateGroupFormProps) {
         e.preventDefault();
         // Logic to create the group can go here
 
-        // Close the modal after form submission
         closeModal();
     };
 
     return (
         <Card>
-            <form onSubmit={handleSubmit}> {/* Wrap content in form and attach handleSubmit */}
+            <form onSubmit={handleSubmit}>
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl">Create a group</CardTitle>
                     <CardDescription>
@@ -30,14 +29,14 @@ export function CreateGroupForm({ closeModal }: CreateGroupFormProps) {
                 </CardHeader>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="email">Group Name</Label>
-                        <Input id="group_name" type="name" placeholder="m@example.com" required />
+                        <Label htmlFor="email" >Group Name</Label>
+                        <Input id="group_name" type="name" placeholder="example@mail.com" required />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="description">Description</Label>
                         <Textarea
                             id="description"
-                            placeholder="Please include all information relevant to your issue."
+                            placeholder="Please provide a short description about your group."
                         />
                     </div>
                 </CardContent>
